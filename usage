@@ -1,0 +1,12 @@
+async function getTodayHoliday() {
+  const today = new Date().toISOString().split("T")[0];
+  const response = await fetch("https://raw.githubusercontent.com/username/india-holidays-json/main/holidays2026.json");
+  const data = await response.json();
+
+  const holidays = data.response.holidays;
+  const todayHoliday = holidays.filter(h => h.date.iso.startsWith(today));
+
+  return todayHoliday.length > 0
+    ? todayHoliday.map(h => h.name).join(", ")
+    : "No event today";
+}
